@@ -2,7 +2,6 @@
     import Card from "./lib/Card.svelte";
     import ColorChange from "./lib/ColorChange.svelte";
     import Counter from "./lib/Counter.svelte";
-    import List from "./lib/List.svelte";
 
     const items = [
         { title: "김지민 바보", content: "이건 부정할 수 없는 사실" },
@@ -11,35 +10,60 @@
     ];
 
     let color = "#ffffff";
+
+    let text = "";
+
+    let todoList = [];
+
+    function addToList() {
+        todoList = [...todoList, text];
+        text = "";
+    }
 </script>
 
 <main>
     {#each items as item}
-        <Card title={item.title} content={item.title}/>
+        <Card title={item.title} content={item.title} />
     {/each}
     <div>
-        <input type="color" bind:value={color}>
-        <ColorChange color={color}/>
+        <input type="color" bind:value={color} />
+        <ColorChange {color} />
     </div>
-    <Counter />
     <div>
-        <List />
+        <Counter />
+    </div>
+    <div class="list">
+        <div>
+            <input bind:value={text} type="text" />
+            <button on:click={addToList}>Add</button>
+        </div>
+        {#each todoList as todo}
+            <p>{todo}</p>
+        {/each}
     </div>
 </main>
 
 <style>
-  main {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 2rem;
-  }
+    main {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 2rem;
+    }
 
-  div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-  }
+    div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .list {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 1rem;
+    }
 </style>
